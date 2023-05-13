@@ -1,6 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-export const dataSourceOption: DataSourceOptions = {
+export const dataSourceOptions: DataSourceOptions = {
   type: 'mysql',
   username: 'root',
   password: 'root',
@@ -9,6 +9,6 @@ export const dataSourceOption: DataSourceOptions = {
   migrations: ['dist/db/migration/*.js'],
 };
 
-const dataSource = new DataSource(dataSourceOption);
+const dataSource = new DataSource(dataSourceOptions);
 
 export default dataSource;

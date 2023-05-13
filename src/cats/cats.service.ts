@@ -11,9 +11,13 @@ export class CatsService {
     @InjectRepository(Cat)
     private CatsRepository: Repository<Cat>,
   ) {}
-  async create(createCatDto: CreateCatDto) {
-    const example = this.CatsRepository.create(createCatDto);
-    return this.CatsRepository.save(example);
+  async create(createCatDto: CreateCatDto): Promise<Cat> {
+    try {
+      const example = await this.CatsRepository.create(createCatDto);
+      return await this.CatsRepository.save(example);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   findAll() {
