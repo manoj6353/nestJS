@@ -4,7 +4,7 @@ export const dataSourceOptions: DataSourceOptions = {
   type: 'mysql',
   username: 'root',
   password: 'root',
-  database: 'test',
+  database: 'demo',
   entities: ['dist/src/**/entities/*.js'],
   migrations: ['dist/db/migration/*.js'],
 };

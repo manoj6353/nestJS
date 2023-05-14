@@ -14,11 +14,6 @@ export class Cat {
   @Column()
   age: number;
 
-  @Column()
-  createdAt: Date;
-  @Column()
-  updatedAt: Date;
-
   @OneToMany((type) => Photo, (photo) => photo.catsId)
   photos: Photo[];
 }
