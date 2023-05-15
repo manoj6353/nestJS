@@ -14,6 +14,6 @@ export class Cat {
   @Column()
   age: number;
 
-  @OneToMany((type) => Photo, (photo) => photo.catsId)
+  @OneToMany((type) => Photo, (photo) => photo.cats)
   photos: Photo[];
 }

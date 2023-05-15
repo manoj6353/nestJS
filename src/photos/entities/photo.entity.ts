@@ -8,9 +8,6 @@ export class Photo {
   @Column()
   photo: string;
 
-  @Column()
-  catsId: number;
-
-  @ManyToOne((type) => Cat, (cat) => cat.id)
-  cat: Cat;
+  @ManyToOne((type) => Cat, (cat) => cat.id, { cascade: true })
+  cats: Cat;
 }

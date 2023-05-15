@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model cat {
+  id    Int     @id @default(autoincrement())
+  name String? 
+  breed  String?
+  age Int?
+  photos photo[]
+
+  @@map("cat")
+}
+
+model photo {
+  id        Int     @id @default(autoincrement())
+  photo     String?
+  cats cat    @relation(fields: [catId], references: [id],onDelete: Cascade)
+  catId  Int
+
+  @@map("photo")
+}

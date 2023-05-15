@@ -1,38 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateCatDto } from '../dto/create-cat.dto';
+import { PrismaClient } from '@prisma/client';
+import { Photo } from 'src/photos/entities/photo.entity';
 import { UpdateCatDto } from '../dto/update-cat.dto';
-import { Cat } from '../entities/cat.entity';
-import { Photo } from '../../photos/entities/photo.entity';
+const prisma = new PrismaClient();
 @Injectable()
 export class CatsService {
-  constructor(
-    @InjectRepository(Cat)
-    private CatsRepository: Repository<Cat>,
-  ) {}
-  async create(createCatDto: CreateCatDto): Promise<Cat> {
+  async create(createCatDto) {
     try {
-      const example = await this.CatsRepository.create(createCatDto);
-      return await this.CatsRepository.save(example);
+      const photos = await prisma.cat.create({
+        data: {
+          name: createCatDto.name,
+          breed: createCatDto.breed,
+          age: createCatDto.age,
+          photos: {
+            create: {
+              photo: createCatDto.photos.photo,
+            },
+          },
+        },
+      });
+      return photos;
     } catch (err) {
       console.log(err);
     }
   }
 
   findAll() {
-    return `This action returns all cats`;
+    return prisma.cat.findMany({
+      include: { photos: true },
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} cat`;
+    return prisma.cat.findFirst({
+      include: { photos: true },
+      where: { id: id },
+    });
   }
 
-  update(id: number, updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+  update(id: number, updateCatDto) {
+    return prisma.cat.update({
+      where: { id: id },
+      data: {
+        ...updateCatDto,
+      },
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} cat`;
+    return prisma.cat.delete({
+      where: { id: id },
+    });
   }
 }
